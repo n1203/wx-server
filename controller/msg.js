@@ -83,31 +83,21 @@ ${danwang}`, GROUPS.XP.YY);
      * @returns 
      */
     receive: async (req, res) => {
-        // {
-        //   "type": "text",
-        //   "content": "你好",
-        //   "source": "{\"room\":\"\",\"to\":{\"_events\":{},\"_eventsCount\":0,\"id\":\"@f387910fa45\",\"payload\":{\"alias\":\"\",\"avatar\":\"/cgi-bin/mmwebwx-bin/webwxgeticon?seq=1302335654&username=@f38bfd1e0567910fa45&skey=@crypaafc30\",\"friend\":false,\"gender\":1,\"id\":\"@f38bfd1e10fa45\",\"name\":\"ch.\",\"phone\":[],\"star\":false,\"type\":1}},\"from\":{\"_events\":{},\"_eventsCount\":0,\"id\":\"@6b5111dcc269b6901fbb58\",\"payload\":{\"address\":\"\",\"alias\":\"\",\"avatar\":\"/cgi-bin/mmwebwx-bin/webwxgeticon?seq=123234564&username=@6b5dbb58&skey=@crypt_ec356afc30\",\"city\":\"Mars\",\"friend\":false,\"gender\":1,\"id\":\"@6b5dbd3facb58\",\"name\":\"Daniel\",\"phone\":[],\"province\":\"Earth\",\"signature\":\"\",\"star\":false,\"weixin\":\"\",\"type\":1}}}",
-        //   "isMentioned": "0",
-        //   "isMsgFromSelf": "0",
-        //   "isSystemEvent": "0" // 考虑废弃，请使用type类型判断系统消息
-        // }
-        // await sendMsg(`${JSON.stringify(req.body)}`, GROUPS.XP.YY)
-
         try {
-            const { source } = req.body
-            logger.info(`source ready`)
+            const { source, content } = req.body
+            if (!content) {
+                return res.sendStatus(200);
+            }
             const sourceJSON = JSON.parse(source)
-            logger.info(`sourceJSON ready`)
-            logger.info(`sourceJSON: ${JSON.stringify(sourceJSON?.room, null, 2)}`)
             if (!sourceJSON?.room) {
                 logger.warn(`sourceJSON.room is not exist`)
                 return res.sendStatus(200);
             }
             const isCustomerTopic = sourceJSON?.room?.payload?.topic?.includes('新能源') || sourceJSON?.room?.payload?.topic?.includes('新漂')
-            logger.info(`isCustomerTopic: ${isCustomerTopic}, ${sourceJSON.room.topic}`)
             if (!isCustomerTopic) {
                 return res.sendStatus(200);
             }
+            console.log('id', sourceJSON.from.id)
             let user = await userService.getUser(sourceJSON.from.id)
             if (!user) {
                 const payload = sourceJSON.from.payload
@@ -121,8 +111,8 @@ ${danwang}`, GROUPS.XP.YY);
                     },
                 })
             }
-            await userService.addChatRecord(userRes.id, {
-                content: req.body.content,
+            await userService.addChatRecord(user.id, {
+                content,
             })
             return res.sendStatus(200);
         } catch (error) {

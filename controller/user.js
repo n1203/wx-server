@@ -22,5 +22,10 @@ module.exports = {
         const { userId, chatRecord } = req.body
         const result = await user.addChatRecord(userId, chatRecord)
         return res.json(result)
+    },
+    getUser: async (req, res) => {
+        const { wxId } = req.query
+        const result = await user.getUser(wxId)
+        return res.json(result)
     }
 }

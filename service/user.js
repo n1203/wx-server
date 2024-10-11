@@ -6,6 +6,9 @@ const { prisma } = require("../prisma/connections")
  * @returns 
  */
 const createUser = async (user) => {
+    console.log('user', user)
+    delete user.meta.create.phone
+    delete user.email
     return await prisma.user.upsert({
         where: { wxId: user.wxId },
         update: user,
@@ -20,6 +23,7 @@ const createUser = async (user) => {
  * @returns 
  */
 const addChatRecord = async (userId, chatRecord) => {
+    console.log('chatRecord', chatRecord)
     return await prisma.chatRecord.create({
         data: { ...chatRecord, userId }
     })
@@ -33,7 +37,11 @@ const addChatRecord = async (userId, chatRecord) => {
  * nArgument `where` of type UserWhereUniqueInput needs at least one of `id` or `email` arguments. Available options are marked with ?.\n    at Dn
  */
 const getUser = async (wxId) => {
-    return await prisma.user.findUnique({ where: { wxId } })
+    return await prisma.user.findFirst({
+        where: {
+            wxId
+        }
+    })
 }
 
 module.exports = { createUser, addChatRecord, getUser }

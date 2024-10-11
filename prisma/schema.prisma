@@ -16,7 +16,6 @@ datasource db {
 
 model User {
   id      Int      @id @default(autoincrement())
-  email   String?  @unique
   name    String?
   chatRecords ChatRecord[]
   wxId String?     @unique
@@ -26,10 +25,11 @@ model User {
 model UserMeta {
   id      Int      @id @default(autoincrement())
   alias   String?
-  avatar  String?
+  avatar  String? @db.LongText
   friend  Boolean?
   gender  Int?
   name    String?
+  city    String?
   province String?
   signature String?
   star Boolean?
