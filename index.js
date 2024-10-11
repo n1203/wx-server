@@ -1,9 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 var multipart = require('connect-multiparty');
+const expressLogging = require('express-logging');
+const logger = require('logops');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(expressLogging(logger));
 
 const multipartMiddleware = multipart();
 

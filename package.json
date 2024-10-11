@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",
-    "pm2": "pm2 start index.js --name webhook"
+    "pm2": "pm2 start index.js --name webhook",
+    "stop": "pm2 delete webhook",
+    "restart": "pm2 restart webhook"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +17,8 @@
     "body-parser": "^1.20.3",
     "connect-multiparty": "^2.2.0",
     "express": "^4.21.0",
+    "express-logging": "^1.1.1",
+    "logops": "^2.1.2",
     "sharp": "^0.33.5"
   },
   "devDependencies": {

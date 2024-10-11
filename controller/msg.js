@@ -96,6 +96,7 @@ ${danwang}`, GROUPS.XP.YY);
             const { source } = req.body
             const sourceJSON = JSON.parse(source)
             const isCustomerTopic = sourceJSON.room.topic.includes('新能源代拿小程序售后群')
+            logger.info(`isCustomerTopic: ${isCustomerTopic}, ${sourceJSON.room.topic}`)
             if (!isCustomerTopic) {
                 return res.sendStatus(200);
             }
@@ -115,7 +116,7 @@ ${danwang}`, GROUPS.XP.YY);
             })
             return res.sendStatus(200);
         } catch (error) {
-            console.error('Error in receive controller:', error);
+            logger.error('Error in receive controller:', error);
             res.status(500).send('Internal Server Error');
         }
     }
