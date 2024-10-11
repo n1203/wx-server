@@ -134,14 +134,14 @@ ${danwang}`, GROUPS.XP.YY);
                 switch (value) {
                     case '余额':
                         const token = await tokenService.getToken(user.id)
-                        await sendMsg(`@${user.name} 您当前余额为：${token.balance}`, topic);
+                        await sendMsg(`@${user?.meta?.name || user.name} 您当前余额为：${token?.balance || 0}`, topic);
                         break;
                     case '签到':
                         await tokenService.createToken(user.id,
                             Math.floor(Math.random() * 3),
                             '1'
                         )
-                        await sendMsg(`@${user.name} 签到成功`, topic);
+                        await sendMsg(`@${user?.meta?.name || user.name} 签到成功`, topic);
                         break;
                     default:
                         await sendMsg(`我支持如下指令：
