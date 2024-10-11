@@ -31,7 +31,7 @@ const addChatRecord = async (userId, chatRecord) => {
  * @returns
  */
 const getUser = async (wxId) => {
-    return await prisma.user.findUnique({ where: { wxId } })
+    return await prisma.user.findFirst({ where: { wxId } })
 }
 
 module.exports = { createUser, addChatRecord, getUser }
