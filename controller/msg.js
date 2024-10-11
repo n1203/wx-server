@@ -85,6 +85,7 @@ ${danwang}`, GROUPS.XP.YY);
     receive: async (req, res) => {
         try {
             const { source, content } = req.body
+            console.log('source', source)
             if (!content) {
                 return res.sendStatus(200);
             }
