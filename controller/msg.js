@@ -110,12 +110,14 @@ ${danwang}`, GROUPS.XP.YY);
             }
             let user = await userService.getUser(sourceJSON.from.id)
             if (!user) {
+                const payload = sourceJSON.from.payload
+                delete payload.id
                 user = await userService.createUser({
                     wxId: sourceJSON.from.id,
                     email: '',
                     name: sourceJSON.from.name,
                     meta: {
-                        create: sourceJSON.from.payload
+                        create: payload
                     },
                 })
             }
