@@ -96,7 +96,10 @@ ${danwang}`, GROUPS.XP.YY);
         try {
             const { source } = req.body
             const sourceJSON = JSON.parse(source)
-            const isCustomerTopic = sourceJSON.room.topic.includes('新能源') || sourceJSON.room.topic.includes('新漂')
+            if (!sourceJSON?.room?.payload?.topic) {
+                return res.sendStatus(200);
+            }
+            const isCustomerTopic = sourceJSON?.room?.payload?.topic?.includes('新能源') || sourceJSON?.room?.payload?.topic?.includes('新漂')
             logger.info(`isCustomerTopic: ${isCustomerTopic}, ${sourceJSON.room.topic}`)
             if (!isCustomerTopic) {
                 return res.sendStatus(200);
