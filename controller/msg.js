@@ -96,7 +96,7 @@ ${danwang}`, GROUPS.XP.YY);
         try {
             const { source } = req.body
             const sourceJSON = JSON.parse(source)
-            const isCustomerTopic = sourceJSON.room.topic.includes('新能源代拿小程序售后群')
+            const isCustomerTopic = sourceJSON.room.topic.includes('新能源') || sourceJSON.room.topic.includes('新漂')
             logger.info(`isCustomerTopic: ${isCustomerTopic}, ${sourceJSON.room.topic}`)
             if (!isCustomerTopic) {
                 return res.sendStatus(200);
