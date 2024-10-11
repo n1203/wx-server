@@ -91,9 +91,14 @@ ${danwang}`, GROUPS.XP.YY);
         //   "isSystemEvent": "0" // 考虑废弃，请使用type类型判断系统消息
         // }
         // await sendMsg(`${JSON.stringify(req.body)}`, GROUPS.XP.YY)
+
         try {
             const { source } = req.body
             const sourceJSON = JSON.parse(source)
+            const isCustomerTopic = sourceJSON.room.topic.includes('新能源代拿小程序售后群')
+            if (!isCustomerTopic) {
+                return res.sendStatus(200);
+            }
             let user = await userService.getUser(sourceJSON.from.id)
             if (!user) {
                 user = await userService.createUser({
