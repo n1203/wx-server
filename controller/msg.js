@@ -95,9 +95,12 @@ ${danwang}`, GROUPS.XP.YY);
 
         try {
             const { source } = req.body
+            logger.info(`source ready`)
             const sourceJSON = JSON.parse(source)
-            logger.info(`sourceJSON: ${JSON.stringify(sourceJSON, null, 2)}`)
+            logger.info(`sourceJSON ready`)
+            logger.info(`sourceJSON: ${JSON.stringify(sourceJSON?.room, null, 2)}`)
             if (!sourceJSON?.room) {
+                logger.warn(`sourceJSON.room is not exist`)
                 return res.sendStatus(200);
             }
             const isCustomerTopic = sourceJSON?.room?.payload?.topic?.includes('新能源') || sourceJSON?.room?.payload?.topic?.includes('新漂')
