@@ -27,11 +27,13 @@ const addChatRecord = async (userId, chatRecord) => {
 
 /**
  * 查找用户
- * @param {*} userId
- * @returns
+ * @param {string} wxId 微信ID
+ * @returns {Promise<User|null>}
+ * 
+ * nArgument `where` of type UserWhereUniqueInput needs at least one of `id` or `email` arguments. Available options are marked with ?.\n    at Dn
  */
 const getUser = async (wxId) => {
-    return await prisma.user.findFirst({ where: { wxId } })
+    return await prisma.user.findUnique({ where: { wxId } })
 }
 
 module.exports = { createUser, addChatRecord, getUser }
