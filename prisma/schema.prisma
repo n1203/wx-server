@@ -30,6 +30,7 @@ model UserMeta {
   gender  Int?
   name    String?
   city    String?
+  address String?
   province String?
   signature String?
   star Boolean?
