@@ -6,7 +6,7 @@ const { prisma } = require("../prisma/connections")
  * @returns 
  */
 const createUser = async (user) => {
-    return await prisma.user.update({
+    return await prisma.user.upsert({
         data: user
     })
 }
