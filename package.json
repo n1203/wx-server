@@ -1,0 +1,23 @@
+{
+  "name": "webhook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "pm2": "pm2 start index.js --name webhook"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/client": "5.20.0",
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "connect-multiparty": "^2.2.0",
+    "express": "^4.21.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "prisma": "^5.20.0"
+  }
+}
