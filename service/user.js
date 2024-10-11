@@ -7,7 +7,9 @@ const { prisma } = require("../prisma/connections")
  */
 const createUser = async (user) => {
     return await prisma.user.upsert({
-        data: user
+        where: { wxId: user.wxId },
+        update: user,
+        create: user
     })
 }
 
