@@ -108,7 +108,19 @@ ${danwang}`, GROUPS.XP.YY);
                     email: '',
                     name: sourceJSON.from.name,
                     meta: {
-                        create: payload
+                        create: {
+                            alias: payload.alias,
+                            avatar: payload.avatar,
+                            friend: payload.friend,
+                            gender: payload.gender,
+                            name: payload.name,
+                            city: payload.city,
+                            address: payload.address,
+                            province: payload.province,
+                            signature: payload.signature,
+                            star: payload.star,
+                            type: payload.type,
+                        }
                     },
                 })
             }
