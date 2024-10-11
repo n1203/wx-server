@@ -144,6 +144,10 @@ ${danwang}`, GROUPS.XP.YY);
                             reward,
                             '1'
                         )
+                        if (tokenRes === 100) {
+                            await sendMsg(`@${name} 今天已经签到过了`, topic);
+                            break;
+                        }
                         await sendMsg(`@${name} 签到成功，获得${reward}积分, 当前余额为${tokenRes?.balance || 0}`, topic);
                         break;
                     default:

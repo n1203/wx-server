@@ -1,4 +1,5 @@
 const { prisma } = require("../prisma/connections")
+const sendMsg = require("./msg")
 
 module.exports = {
     /**
@@ -21,6 +22,9 @@ module.exports = {
         const token = await prisma.token.findFirst({
             where: { userId, collection }
         })
+        if (token && token.updatedAt.getTime() > Date.now() - 24 * 60 * 60 * 1000) {
+            return 100
+        }
         if (token) {
             return await prisma.token.update({
                 where: { id: token.id },
