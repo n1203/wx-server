@@ -9,9 +9,22 @@ const createUser = async (user) => {
     console.log('user', user)
     delete user.meta.create.phone
     delete user.email
+
     return await prisma.user.upsert({
         where: { wxId: user.wxId },
-        update: user,
+        update: {
+            alias: user.meta.create.alias,
+            avatar: user.meta.create.avatar,
+            friend: user.meta.create.friend,
+            gender: user.meta.create.gender,
+            name: user.meta.create.name,
+            city: user.meta.create.city,
+            address: user.meta.create.address,
+            province: user.meta.create.province,
+            signature: user.meta.create.signature,
+            star: user.meta.create.star,
+            type: user.meta.create.type,
+        },
         create: user
     })
 }
