@@ -136,7 +136,7 @@ ${danwang}`, GROUPS.XP.YY);
                 switch (value) {
                     case '余额':
                         const token = await tokenService.getToken(userinfo.id)
-                        await sendMsg(`@${name} 您当前积分为：${token?.balance || 0}`, topic);
+                        await sendMsg(`@${name} 您当前积分为：${token?.balance?.toFixed(4) || 0}`, topic);
                         break;
                     case '签到':
                         const reward = +(Math.random() * 3).toFixed(4)
@@ -148,7 +148,7 @@ ${danwang}`, GROUPS.XP.YY);
                             await sendMsg(`@${name} 今天已经签到过了`, topic);
                             break;
                         }
-                        await sendMsg(`@${name} 签到成功，获得${reward}积分, 当前积分为${tokenRes?.balance || 0}`, topic);
+                        await sendMsg(`@${name} 签到成功，获得${reward}积分, 当前积分为${tokenRes?.balance?.toFixed(4) || 0}`, topic);
                         break;
                     default:
                         await sendMsg(`我支持如下指令：
