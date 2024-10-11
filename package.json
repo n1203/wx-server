@@ -17,9 +17,8 @@
     "body-parser": "^1.20.3",
     "connect-multiparty": "^2.2.0",
     "express": "^4.21.0",
-    "express-logging": "^1.1.1",
-    "logops": "^2.1.2",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "winston": "^3.15.0"
   },
   "devDependencies": {
     "prisma": "^5.20.0"

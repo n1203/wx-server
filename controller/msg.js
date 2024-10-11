@@ -4,7 +4,8 @@ const getTodayOrder = require("../service/cost");
 const { getDanwangData, getDanwang } = require("../service/danwang");
 const sendMsg = require("../service/msg");
 const svgToPng = require("../utils/svg-to-png");
-const userService = require("../service/user")
+const userService = require("../service/user");
+const logger = require("../utils/logger");
 
 /**
  * 新漂青年接口
