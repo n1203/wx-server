@@ -130,8 +130,8 @@ ${danwang}`, GROUPS.XP.YY);
                 content,
             })
             const [key, value] = content.split(' ')
-            let userinfo = await userService.getUser(sourceJSON.from.id)
-            const name = userinfo?.meta[0]?.name || userinfo.name
+            let userinfo = await userService.getUserInfo(sourceJSON.from.id)
+            const name = userinfo?.name || userinfo.name
             if (key === '@#新漂青年') {
                 switch (value) {
                     case '余额':

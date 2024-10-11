@@ -44,4 +44,14 @@ const getUser = async (wxId) => {
     })
 }
 
-module.exports = { createUser, addChatRecord, getUser }
+/**
+ * 获取用户信息
+ * @param {*} wxId 
+ * @returns 
+ */
+const getUserInfo = async (wxId) => {
+    const user = await getUser(wxId)
+    return await prisma.userMeta.findFirst({ where: { userId: user.id } })
+}
+
+module.exports = { createUser, addChatRecord, getUser, getUserInfo }
