@@ -139,11 +139,12 @@ ${danwang}`, GROUPS.XP.YY);
                         await sendMsg(`@${name} 您当前余额为：${token?.balance || 0}`, topic);
                         break;
                     case '签到':
-                        await tokenService.createToken(userinfo.id,
-                            Math.floor(Math.random() * 3),
+                        const reward = Math.floor(Math.random() * 3)
+                        const tokenRes = await tokenService.createToken(userinfo.id,
+                            reward,
                             '1'
                         )
-                        await sendMsg(`@${name} 签到成功`, topic);
+                        await sendMsg(`@${name} 签到成功，获得${reward}积分, 当前余额为${tokenRes?.balance || 0}`, topic);
                         break;
                     default:
                         await sendMsg(`我支持如下指令：
