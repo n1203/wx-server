@@ -1,3 +1,5 @@
+const { prisma } = require("../prisma/connections")
+
 module.exports = {
     /**
      * 获取用户token
@@ -5,7 +7,7 @@ module.exports = {
      * @returns 
      */
     getToken: async (userId) => {
-        return await prisma.token.findUnique({
+        return await prisma.token.findFirst({
             where: { userId }
         })
     },
