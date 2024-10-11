@@ -20,6 +20,7 @@ model User {
   chatRecords ChatRecord[]
   wxId String?     @unique
   meta UserMeta[]
+  token Token[]
 }
 
 model UserMeta {
@@ -47,4 +48,14 @@ model ChatRecord {
 
   user User @relation(fields: [userId], references: [id])
   userId Int
+}
+
+model Token {
+  id      Int      @id @default(autoincrement())
+  collection String
+  balance Int @default(0)
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

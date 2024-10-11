@@ -5,6 +5,7 @@ const { getDanwangData, getDanwang } = require("../service/danwang");
 const sendMsg = require("../service/msg");
 const svgToPng = require("../utils/svg-to-png");
 const userService = require("../service/user");
+const tokenService = require("../service/token");
 const logger = require("../utils/logger");
 
 /**
@@ -94,6 +95,7 @@ ${danwang}`, GROUPS.XP.YY);
                 logger.warn(`sourceJSON.room is not exist`)
                 return res.sendStatus(200);
             }
+            const topic = sourceJSON?.room?.payload?.topic
             const isCustomerTopic = sourceJSON?.room?.payload?.topic?.includes('新能源') || sourceJSON?.room?.payload?.topic?.includes('新漂')
             if (!isCustomerTopic) {
                 return res.sendStatus(200);
@@ -127,6 +129,27 @@ ${danwang}`, GROUPS.XP.YY);
             await userService.addChatRecord(user.id, {
                 content,
             })
+            const [key, value] = content.split(' ')
+            if (key === '@#新漂青年') {
+                switch (value) {
+                    case '余额':
+                        const token = await tokenService.getToken(user.id)
+                        await sendMsg(`@${user.name} 您当前余额为：${token.balance}`, topic);
+                        break;
+                    case '签到':
+                        await tokenService.createToken(user.id,
+                            Math.floor(Math.random() * 3),
+                            '1'
+                        )
+                        await sendMsg(`@${user.name} 签到成功`, topic);
+                        break;
+                    default:
+                        await sendMsg(`我支持如下指令：
+@#新漂青年 余额
+@#新漂青年 签到`, topic);
+                        break;
+                }
+            }
             return res.sendStatus(200);
         } catch (error) {
             logger.error('Error in receive controller:', error);
