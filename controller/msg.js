@@ -130,18 +130,19 @@ ${danwang}`, GROUPS.XP.YY);
                 content,
             })
             const [key, value] = content.split(' ')
+            let userinfo = await userService.getUser(sourceJSON.from.id)
             if (key === '@#新漂青年') {
                 switch (value) {
                     case '余额':
-                        const token = await tokenService.getToken(user.id)
-                        await sendMsg(`@${user?.meta?.name || user.name} 您当前余额为：${token?.balance || 0}`, topic);
+                        const token = await tokenService.getToken(userinfo.id)
+                        await sendMsg(`@${userinfo?.meta?.name || userinfo.name} 您当前余额为：${token?.balance || 0}`, topic);
                         break;
                     case '签到':
-                        await tokenService.createToken(user.id,
+                        await tokenService.createToken(userinfo.id,
                             Math.floor(Math.random() * 3),
                             '1'
                         )
-                        await sendMsg(`@${user?.meta?.name || user.name} 签到成功`, topic);
+                        await sendMsg(`@${userinfo?.meta?.name || userinfo.name} 签到成功`, topic);
                         break;
                     default:
                         await sendMsg(`我支持如下指令：
