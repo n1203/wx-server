@@ -31,9 +31,7 @@ module.exports = {
             data: {
                 balance,
                 collection,
-                userId: {
-                    connect: { id: userId }
-                }
+                userId
             }
         })
     }
