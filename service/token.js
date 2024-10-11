@@ -19,7 +19,7 @@ module.exports = {
      */
     createToken: async (userId, balance, collection = '1') => {
         return await prisma.token.upsert({
-            where: { userId },
+            where: { userId, collection },
             update: { balance: { increment: balance } },
             create: { balance, collection, userId }
         })
