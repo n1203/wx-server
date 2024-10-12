@@ -17,6 +17,7 @@
     "body-parser": "^1.20.3",
     "connect-multiparty": "^2.2.0",
     "express": "^4.21.0",
+    "node-schedule": "^2.1.1",
     "sharp": "^0.33.5",
     "winston": "^3.15.0"
   },

@@ -1,5 +1,6 @@
 const { GROUPS } = require("../const/groups");
 const sendMsg = require("../service/msg");
+const personalService = require("../service/personal");
 
 /**
  * 海燕俊平接口
@@ -21,6 +22,13 @@ const hyjpController = {
         } finally {
             return res.sendStatus(200);
         }
+    },
+    goldPrice: async (req, res) => {
+        const price = await personalService.getGoldPrice()
+        const chart = await personalService.nowGoldPriceChart()
+        await sendMsg(price, GROUPS.PERSON.LC)
+        await sendMsg(chart, GROUPS.PERSON.LC, true)
+        return res.send(price)
     }
 }
 

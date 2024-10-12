@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 var multipart = require('connect-multiparty');
+const schedule = require('./schedule');
+
+schedule.init()
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,6 +28,7 @@ const hyjpController = require('./controller/personal');
 const logger = require("./utils/logger");
 
 app.post("/msg", hyjpController.msg);
+app.get("/gold-price", hyjpController.goldPrice);
 
 
 /**
