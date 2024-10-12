@@ -60,6 +60,11 @@ ${danwang}`, GROUPS.XP.YY);
             return res.sendStatus(200);
         }
     },
+    ad: async (req, res) => {
+        await sendMsg(`👏 邀请好友使用 #新漂青年 抢不限量快递代取优惠券
+#小程序://新漂/lHjjkSy2hdGvD9H`, GROUPS.XP.CUSTOMER1)
+        return res.sendStatus(200);
+    },
     danwang: async (req, res) => {
         try {
             const danwang = await getDanwangData()
