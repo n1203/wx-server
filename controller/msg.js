@@ -43,12 +43,12 @@ ${danwang}`, GROUPS.XP.YY);
             const elements = body.card.elements.map((item) => {
                 switch (item.tag) {
                     case "markdown":
-                        return item.content
+                        return item.content || '-'
                     case "text":
-                        return item.text.content
+                        return item.text.content || '-'
                     case "action":
                         return item.actions.map((action) => {
-                            return `${action.text.content}: ${action.multi_url.url}`
+                            return `${action.text.content || '-'}: ${action.multi_url.url || '-'}`
                         }).join(" ")
                     default:
                         return JSON.stringify(item)
