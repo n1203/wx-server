@@ -67,7 +67,6 @@ ${danwang}`;
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
         } finally {
-            await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
             return res.sendStatus(200);
         }
     },
