@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 var multipart = require('connect-multiparty');
-const schedule = require('./schedule');
+// const schedule = require('./schedule');
 
-schedule.init()
+// schedule.init()
 
 const app = express();
 app.use(bodyParser.json());
