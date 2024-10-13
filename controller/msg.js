@@ -40,19 +40,27 @@ ${danwang}`, GROUPS.XP.YY);
         try {
             const { body } = req;
             const danwang = await getDanwang()
-            const divMd = body.card.elements.find((item) => item.tag === "div");
-            const descMd = body.card.elements.find((item) => item.tag === "markdown");
-            const action = body.card.elements.find((item) => item.tag === "action");
+            const elements = body.card.elements.map((item) => {
+                switch (item.tag) {
+                    case "markdown":
+                        return item.content
+                    case "text":
+                        return item.text.content
+                    case "action":
+                        return item.actions.map((action) => {
+                            return `${action.text.content}: ${action.multi_url.url}`
+                        }).join(" ")
+                    default:
+                        return JSON.stringify(item)
+                }
+            }).join(`
+`)
+
             const content = `${body.card.header.title.content}
-  -----------
-  ${divMd.text.content}
-  ${descMd.content}
-  -----------
-  ${action?.actions.map((item) => {
-                return `${item.text.content}: ${item.multi_url.url}`
-            }).join(" ")}
-  ${danwang}
-  `;
+-----------
+${elements}
+-----------
+${danwang}`;
             await sendMsg(content, GROUPS.XP.HZ)
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
