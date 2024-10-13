@@ -46,6 +46,8 @@ ${danwang}`, GROUPS.XP.YY);
                         return item?.content || '-'
                     case "div":
                         return item?.text?.content || '-'
+                    case "hr":
+                        return '-----------'
                     case "action":
                         return item.actions.map((action) => {
                             return `${action?.text?.content || '-'}: ${action?.multi_url?.url || '-'}`
