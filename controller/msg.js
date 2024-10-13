@@ -57,6 +57,7 @@ ${danwang}`, GROUPS.XP.YY);
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
         } finally {
+            await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
             return res.sendStatus(200);
         }
     },
@@ -134,6 +135,17 @@ ${danwang}`, GROUPS.XP.YY);
             await userService.addChatRecord(user.id, {
                 content,
             })
+
+            // if (/分享的二维码加入群聊/.test(content)) {
+            //     // "XU 。"通过扫描"老胡"分享的二维码加入群聊
+            //     const name = content.split('通过扫描"')[1].split('"分享的二维码加入群聊')[0]
+            //     await userService.updateUser(user.id, {
+            //         meta: {
+            //             update: { friend: name }
+            //         }
+            //     })
+            // }
+
             const [key, value] = content.split(' ')
             let userinfo = await userService.getUserInfo(sourceJSON.from.id)
             const name = userinfo?.name || userinfo.name
