@@ -2,7 +2,7 @@
 const { $ } = require("zx")
 
 const run = async () => {
-    await $`git add . && git commit -m "deploy-${new Date().toLocaleString()}" && git push`
+    await $`git add . && git commit -m "deploy-${new Date().toLocaleString()}" && git push --set-upstream origin main && git push`
 
     await $`ssh root@122.51.7.85 "cd ~/wx-server && git pull && npm run restart"`
 
