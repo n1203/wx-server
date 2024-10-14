@@ -4,7 +4,7 @@ const { APIS } = require("../const/api");
 const getDanwangData = async () => {
     const currentDate = new Date().toISOString().split('T')[0].split('-').join('');
     const url = `${APIS.DANWANG}?beginDate=${currentDate}&endDate=${currentDate}`
-    const [top1] = await axios.get(url).then(res => res.data?.data)
+    const [top1] = await axios.get(url).then(res => res.data?.data?.sort((a, b) => b.total - a.total))
     return top1
 }
 
