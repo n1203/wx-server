@@ -24,9 +24,9 @@ const hyjpController = {
         }
     },
     goldPrice: async (req, res) => {
-        const price = await personalService.getGoldPrice()
+        // const price = await personalService.getGoldPrice()
         const chart = await personalService.nowGoldPriceChart()
-        await sendMsg(price, GROUPS.PERSON.LC)
+        // await sendMsg(price, GROUPS.PERSON.LC)
         await sendMsg(chart, GROUPS.PERSON.LC, true)
         return res.send(price)
     }
