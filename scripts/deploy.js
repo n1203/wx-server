@@ -20,7 +20,7 @@ const steps = {
 
 const runStep = async (_steps) => {
     for (const [i, step] of _steps.entries()) {
-        await spinner(`${step[0]} (${i}/${_steps.length})`, step[1])
+        await spinner(`${step[0]} (${i + 1}/${_steps.length})`, step[1])
     }
 }
 
