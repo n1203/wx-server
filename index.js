@@ -30,6 +30,8 @@ const logger = require("./utils/logger");
 app.post("/msg", hyjpController.msg);
 app.get("/gold-price", hyjpController.goldPrice);
 
+const systemController = require('./controller/system')
+app.get("/health", systemController.health);
 
 /**
  * 启动

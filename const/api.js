@@ -1,4 +1,4 @@
-const { TOKEN } = require("./token")
+const { TOKEN, WX_API } = require("./token")
 
 const APIS = {
     /**
@@ -8,8 +8,10 @@ const APIS = {
      * @param {string} to 
      * @returns 
      */
-    WX_MSG: `http://122.51.7.85:32769/webhook/msg/v2?token=${TOKEN}`,
-    WX_FILE_MSG: `http://122.51.7.85:32769/webhook/msg?token=${TOKEN}`,
+    WX_MSG: `${WX_API}/webhook/msg/v2?token=${TOKEN}`,
+    WX_FILE_MSG: `${WX_API}/webhook/msg?token=${TOKEN}`,
+    LOGIN: `${WX_API}/login?token=${TOKEN}`,
+    HEALTH: `${WX_API}/healthz?token=${TOKEN}`,
     /**
      * 获取今日单王
      * @param {string} beginDate 
