@@ -6,6 +6,8 @@ const argv = process.argv.slice(2)
 
 const isSingleDeploy = argv.includes("-sd")
 
+console.log("isSingleDeploy", isSingleDeploy)
+
 const steps = {
     pull: ["拉取最新代码", async () => {
         await $`git pull`
