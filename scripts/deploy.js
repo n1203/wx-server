@@ -1,5 +1,7 @@
 // curl http://122.51.7.85:3000/daily
-const { $ } = require("zx")
+const { $, syncProcessCwd } = require("zx")
+
+syncProcessCwd()
 
 const run = async () => {
 
