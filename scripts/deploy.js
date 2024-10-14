@@ -8,8 +8,8 @@ const steps = {
     commit: ["提交代码", async () => {
         const commitMsg = `Release - ${new Date().toLocaleString()}`
         await $`git add . && git commit -m ${commitMsg} && git push --set-upstream origin main && git push`
-        await $`git tag -a v$(date +%Y%m%d) -m "Release ${new Date().toLocaleString()}"`
-        await $`git push --tags`
+        // 如果有相同 tag 则删除后重新打 tag    
+        await $`git tag -d v$(date +%Y%m%d) && git tag -a v$(date +%Y%m%d) -m "Release ${new Date().toLocaleString()}" && git push --tags`
     }],
     deploy: ["部署", async () => {
         await $`ssh root@122.51.7.85 "cd ~/wx-server && git pull && npm run restart"`
