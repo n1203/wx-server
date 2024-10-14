@@ -11,7 +11,12 @@ const steps = {
         const commitMsg = `Release - ${new Date().toLocaleString()}`
         await $`git add . && git commit -m ${commitMsg} && git push --set-upstream origin main && git push`
         // 如果有相同 tag 则删除后再打 tag
-        await $`git tag -d ${tag} && git tag -a ${tag} -m "Release ${new Date().toLocaleString()}"`
+        try {
+            await $`git tag -d ${tag}`
+        } catch (error) {
+            console.log("tag 不存在")
+        }
+        await $`git tag -a ${tag} -m ${commitMsg}`
         await $`git push --tags`
     }],
     deploy: ["部署", async () => {
