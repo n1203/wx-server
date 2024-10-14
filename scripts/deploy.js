@@ -6,7 +6,7 @@ const steps = {
         await $`git pull`
     }],
     commit: ["提交代码", async () => {
-        const commitMsg = `deploy-${new Date().toLocaleString()}`
+        const commitMsg = `Release - ${new Date().toLocaleString()}`
         await $`git add . && git commit -m ${commitMsg} && git push --set-upstream origin main && git push`
     }],
     deploy: ["部署", async () => {
