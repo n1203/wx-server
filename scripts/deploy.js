@@ -13,11 +13,16 @@ const steps = {
         // 如果有相同 tag 则删除后再打 tag
         try {
             await $`git tag -d ${tag}`
+            await $`git push --tags`
         } catch (error) {
             console.log("tag 不存在")
         }
-        await $`git tag -a ${tag} -m ${commitMsg}`
-        await $`git push --tags`
+        try {
+            await $`git tag -a ${tag} -m ${commitMsg}`
+            await $`git push --tags`
+        } catch (error) {
+            console.log("tag 提交失败")
+        }
     }],
     deploy: ["部署", async () => {
         await $`ssh root@122.51.7.85 "cd ~/wx-server && git pull && npm run restart"`
