@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 const { APIS } = require("../const/api");
-const { cost } = require("../const/cost");
+const { evalCost, cost } = require("../const/cost");
 
 /**
  * 获取今日订单
@@ -13,7 +13,7 @@ const getTodayOrder = async () => {
 今日用户: ${data?.userTotal}人 (+${data?.yesterdayUserTotal || 0}人)
 今日订单完成: ${data?.yesterdayOrderCompleteTotal || 0}
 -------
-💰 累计收益：${data?.incomeTotal - cost} 元(综合成本 1999+99+79)`
+💰 累计收益：${data?.incomeTotal - evalCost} 元(综合成本 ${cost})`
 }
 
 module.exports = getTodayOrder

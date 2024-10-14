@@ -7,8 +7,9 @@
 4. 打印机 1080
 5. 打印纸 65
  */
-const cost = 1999 + 99 + 79 + 1080 + 65
+const cost = `1999 + 99 + 79 + 1080 + 65`
 
 module.exports = {
-    cost
+    evalCost: Math.round(eval(cost)),
+    cost,
 }
