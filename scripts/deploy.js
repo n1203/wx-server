@@ -6,10 +6,11 @@ const steps = {
         await $`git pull`
     }],
     commit: ["提交代码", async () => {
+        const date = new Date()
+        const tag = `v${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`
         const commitMsg = `Release - ${new Date().toLocaleString()}`
         await $`git add . && git commit -m ${commitMsg} && git push --set-upstream origin main && git push`
         // 如果有相同 tag 则删除后再打 tag
-        const tag = `v${new Date().toLocaleString().replace(/\//g, '')}`
         await $`git tag -d ${tag} && git tag -a ${tag} -m "Release ${new Date().toLocaleString()}"`
         await $`git push --tags`
     }],
