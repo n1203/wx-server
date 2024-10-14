@@ -9,7 +9,7 @@ const steps = {
         const commitMsg = `Release - ${new Date().toLocaleString()}`
         await $`git add . && git commit -m ${commitMsg} && git push --set-upstream origin main && git push`
         // 如果有相同 tag 则删除后再打 tag
-        const tag = `v$(date +%Y%m%d)`
+        const tag = `v${new Date().toLocaleString().replace(/\//g, '')}`
         await $`git tag -d ${tag} && git tag -a ${tag} -m "Release ${new Date().toLocaleString()}"`
         await $`git push --tags`
     }],
