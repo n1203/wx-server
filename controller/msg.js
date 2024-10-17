@@ -59,10 +59,7 @@ ${danwang}`, GROUPS.XP.YY);
 `)
 
             const content = `${body.card.header.title.content}
------------
-${elements}
------------
-${danwang}`;
+${elements}`;
             await sendMsg(content, GROUPS.XP.HZ)
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
@@ -72,6 +69,8 @@ ${danwang}`;
     },
     ad: async (req, res) => {
         await sendMsg(`👏 邀请好友使用 #新漂青年 抢不限量快递代取优惠券
+📣 新漂青年现已支持「打印」功能，电机小程序下单打印一键直达宿舍～
+
 #小程序://新漂/lHjjkSy2hdGvD9H`, GROUPS.XP.CUSTOMER1)
         return res.sendStatus(200);
     },
