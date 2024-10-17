@@ -45,7 +45,7 @@ ${danwang}`, GROUPS.XP.YY);
                     case "markdown":
                         return item?.content || '-'
                     case "div":
-                        return item?.text?.content || '-'
+                        return item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
                     case "hr":
                         return '-----------'
                     case "action":
