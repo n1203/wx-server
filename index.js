@@ -15,6 +15,7 @@ const controller = require('./controller/msg')
 
 app.get("/daily", controller.daily)
 app.post("/webhook", controller.webhook);
+app.post("/daying-webhook", controller.dayingWebhook);
 app.post("/receive", multipartMiddleware, controller.receive);
 app.get("/danwang.png", controller.danwang);
 app.get("/send-danwang", controller.sendDamwang);

@@ -36,10 +36,32 @@ ${danwang}`, GROUPS.XP.YY);
      * @param {*} res 
      * @returns 
      */
+    dayingWebhook: async (req, res) => {
+        try {
+            return await send(req.body, 'daying')
+        } catch (error) {
+            await sendMsg('服务解析订单状态异常', GROUPS.XP.YY)
+        } finally {
+            return res.sendStatus(200);
+        }
+    },
+    /**
+     * 实时订单状态推送
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
     webhook: async (req, res) => {
         try {
-            const { body } = req;
-            const danwang = await getDanwang()
+            return await send(req.body, 'hz')
+        } catch (error) {
+            await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
+        } finally {
+            return res.sendStatus(200);
+        }
+    },
+    send: async (body, type) => {
+        try {
             const elements = body.card.elements.map((item) => {
                 switch (item.tag) {
                     case "markdown":
@@ -60,7 +82,7 @@ ${danwang}`, GROUPS.XP.YY);
 
             const content = `${body.card.header.title.content}
 ${elements}`;
-            await sendMsg(content, GROUPS.XP.HZ)
+            await sendMsg(content, type === 'daying' ? GROUPS.XP.YY : GROUPS.XP.HZ)
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
         } finally {
