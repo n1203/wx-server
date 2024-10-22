@@ -8,6 +8,36 @@ const userService = require("../service/user");
 const tokenService = require("../service/token");
 const logger = require("../utils/logger");
 
+const send = async (body, type) => {
+    try {
+        const elements = body.card.elements.map((item) => {
+            switch (item.tag) {
+                case "markdown":
+                    return item?.content || '-'
+                case "div":
+                    return item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
+                case "hr":
+                    return '-----------'
+                case "action":
+                    return item.actions.map((action) => {
+                        return `${action?.text?.content || '-'}: ${action?.multi_url?.url || '-'}`
+                    }).join(" ")
+                default:
+                    return JSON.stringify(item)
+            }
+        }).join(`
+`)
+
+        const content = `${body.card.header.title.content}
+${elements}`;
+        await sendMsg(content, type === 'daying' ? GROUPS.XP.YY : GROUPS.XP.HZ)
+    } catch (error) {
+        await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
+    } finally {
+        return res.sendStatus(200);
+    }
+}
+
 /**
  * 新漂青年接口
  */
@@ -38,7 +68,7 @@ ${danwang}`, GROUPS.XP.YY);
      */
     dayingWebhook: async (req, res) => {
         try {
-            return await send(req.body, 'daying')
+            await send(req.body, 'daying')
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.YY)
         } finally {
@@ -53,42 +83,14 @@ ${danwang}`, GROUPS.XP.YY);
      */
     webhook: async (req, res) => {
         try {
-            return await send(req.body, 'hz')
+            await send(req.body, 'hz')
         } catch (error) {
             await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
         } finally {
             return res.sendStatus(200);
         }
     },
-    send: async (body, type) => {
-        try {
-            const elements = body.card.elements.map((item) => {
-                switch (item.tag) {
-                    case "markdown":
-                        return item?.content || '-'
-                    case "div":
-                        return item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
-                    case "hr":
-                        return '-----------'
-                    case "action":
-                        return item.actions.map((action) => {
-                            return `${action?.text?.content || '-'}: ${action?.multi_url?.url || '-'}`
-                        }).join(" ")
-                    default:
-                        return JSON.stringify(item)
-                }
-            }).join(`
-`)
 
-            const content = `${body.card.header.title.content}
-${elements}`;
-            await sendMsg(content, type === 'daying' ? GROUPS.XP.YY : GROUPS.XP.HZ)
-        } catch (error) {
-            await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
-        } finally {
-            return res.sendStatus(200);
-        }
-    },
     ad: async (req, res) => {
         await sendMsg(`👏 邀请好友使用 #新漂青年 抢不限量快递代取优惠券
 📣 新漂青年现已支持「打印」功能，电机小程序下单打印一键直达宿舍～
