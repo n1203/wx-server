@@ -8,6 +8,7 @@ const userService = require("../service/user");
 const tokenService = require("../service/token");
 const logger = require("../utils/logger");
 const orderService = require("../service/order");
+
 const send = async (body, type) => {
     const isDaying = type === 'daying'
     try {
@@ -17,7 +18,7 @@ const send = async (body, type) => {
                 case "markdown":
                     return item?.content || '-'
                 case "div":
-                    const content = item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
+                    const content = item?.text?.content?.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
                     if (content.includes('单号: ')) {
                         id = content.replace('单号: ', '')
                     }
@@ -38,14 +39,14 @@ const send = async (body, type) => {
 ${elements}
 `;
         if (isDaying) {
-            content += `${process.env.APP_URL}/print-file?orderNo=${id}`
+            content += `https://124.221.159.71:3000/print-file?orderNo=${id}`
         }
 
         await sendMsg(content, isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
+        return true
     } catch (error) {
         await sendMsg('服务解析订单状态异常', isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
-    } finally {
-        return res.sendStatus(200);
+        return false
     }
 }
 
