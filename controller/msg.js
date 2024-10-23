@@ -39,7 +39,7 @@ const send = async (body, type) => {
 ${elements}
 `;
         if (isDaying) {
-            content += `https://124.221.159.71:3000/print-file?orderNo=${id}`
+            content += `打印文件下载：https://kuaidian.malimawai.cn/s/print-file?orderNo=${id}`
         }
 
         await sendMsg(content, isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
