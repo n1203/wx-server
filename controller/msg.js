@@ -19,7 +19,7 @@ const send = async (body, type) => {
                 case "div":
                     const content = item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
                     if (content.includes('单号: ')) {
-                        id = content.split('单号: ')[1]
+                        id = content.replace('单号: ', '')
                     }
                     return content
                 case "hr":
@@ -34,10 +34,10 @@ const send = async (body, type) => {
         }).join(`
 `)
 
-        const files = isDaying ? await orderService.getPrintFileByOrderNo(id) : []
         let content = `${body.card.header.title.content}
-${elements}`;
-        if (files.length) {
+${elements}
+`;
+        if (isDaying) {
             content += `${process.env.APP_URL}/print-file?orderNo=${id}`
         }
 
