@@ -7,15 +7,21 @@ const svgToPng = require("../utils/svg-to-png");
 const userService = require("../service/user");
 const tokenService = require("../service/token");
 const logger = require("../utils/logger");
-
+const orderService = require("../service/order");
 const send = async (body, type) => {
+    const isDaying = type === 'daying'
     try {
+        let id = ''
         const elements = body.card.elements.map((item) => {
             switch (item.tag) {
                 case "markdown":
                     return item?.content || '-'
                 case "div":
-                    return item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
+                    const content = item?.text?.content.replace('undefined', '-').replace('xundefined', ' - ') || ' - '
+                    if (content.includes('单号: ')) {
+                        id = content.split('单号: ')[1]
+                    }
+                    return content
                 case "hr":
                     return '-----------'
                 case "action":
@@ -28,11 +34,16 @@ const send = async (body, type) => {
         }).join(`
 `)
 
-        const content = `${body.card.header.title.content}
+        const files = isDaying ? await orderService.getPrintFileByOrderNo(id) : []
+        let content = `${body.card.header.title.content}
 ${elements}`;
-        await sendMsg(content, type === 'daying' ? GROUPS.XP.YY : GROUPS.XP.HZ)
+        if (files.length) {
+            content += `${process.env.APP_URL}/print-file?orderNo=${id}`
+        }
+
+        await sendMsg(content, isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
     } catch (error) {
-        await sendMsg('服务解析订单状态异常', GROUPS.XP.HZ)
+        await sendMsg('服务解析订单状态异常', isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
     } finally {
         return res.sendStatus(200);
     }
@@ -55,7 +66,7 @@ const controller = {
             await sendMsg(`${todayOrder}
 ${danwang}`, GROUPS.XP.YY);
         } catch (error) {
-            await sendMsg('服务解析订单状态异常', GROUPS.XP.YY)
+            await sendMsg('服务���析订单状态异常', GROUPS.XP.YY)
         } finally {
             return res.sendStatus(200);
         }
@@ -168,7 +179,7 @@ ${danwang}`, GROUPS.XP.YY);
                 content,
             })
 
-            // if (/分享的二维码加入群聊/.test(content)) {
+            // if (/分享的二维���加入群聊/.test(content)) {
             //     // "XU 。"通过扫描"老胡"分享的二维码加入群聊
             //     const name = content.split('通过扫描"')[1].split('"分享的二维码加入群聊')[0]
             //     await userService.updateUser(user.id, {
@@ -211,6 +222,101 @@ ${danwang}`, GROUPS.XP.YY);
             logger.error('Error in receive controller:', error);
             res.status(500).send('Internal Server Error');
         }
+    },
+    printFile: async (req, res) => {
+        const { orderNo } = req.query
+        if (!orderNo) {
+            return res.sendStatus(400);
+        }
+        const files = await orderService.getPrintFileByOrderNo(orderNo)
+
+        // 生成 HTML 页面
+        const html = `
+        <!DOCTYPE html>
+        <html lang="zh-CN">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>打印文件 - 订单 ${orderNo}</title>
+            <style>
+                body {
+                    font-family: 'Helvetica Neue', Arial, sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    min-height: 100vh;
+                    background-color: #f5f5f5;
+                }
+                .container {
+                    background-color: white;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    padding: 30px;
+                    max-width: 600px;
+                    width: 100%;
+                }
+                h1 {
+                    color: #333;
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                ul {
+                    list-style-type: none;
+                    padding: 0;
+                }
+                li {
+                    margin-bottom: 15px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px;
+                    background-color: #f9f9f9;
+                    border-radius: 4px;
+                }
+                a {
+                    color: #0066cc;
+                    text-decoration: none;
+                }
+                a:hover {
+                    text-decoration: underline;
+                }
+                .button {
+                    display: inline-block;
+                    padding: 8px 16px;
+                    background-color: #4CAF50;
+                    color: white;
+                    text-align: center;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    transition: background-color 0.3s;
+                }
+                .button:hover {
+                    background-color: #45a049;
+                    text-decoration: none;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>订单 ${orderNo} 的打印文件</h1>
+                <ul>
+                    ${files.map(file => `
+                        <li>
+                            <a href="${file.url}" target="_blank">${file.name}</a>
+                            <a href="${file.url}" download="${file.name}" class="button">下载</a>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        </body>
+        </html>
+        `;
+
+        // 设置响应头并发送 HTML
+        res.setHeader('Content-Type', 'text/html');
+        res.send(html);
     }
 }
 

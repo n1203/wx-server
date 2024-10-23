@@ -20,6 +20,7 @@ app.post("/receive", multipartMiddleware, controller.receive);
 app.get("/danwang.png", controller.danwang);
 app.get("/send-danwang", controller.sendDamwang);
 app.get("/ad", controller.ad);
+app.get("/print-file", controller.printFile);
 
 const UserController = require('./controller/user')
 app.get("/user", UserController.getUser);

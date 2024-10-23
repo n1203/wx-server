@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js",
+    "dev": "cross-env NODE_ENV=local nodemon index.js",
     "pm2": "pm2 start index.js --name webhook",
     "stop": "pm2 delete webhook",
     "restart": "pm2 restart webhook",
@@ -17,9 +17,13 @@
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "connect-multiparty": "^2.2.0",
+    "cross-env": "^7.0.3",
     "express": "^4.21.0",
+    "mysql2": "^3.11.3",
     "node-schedule": "^2.1.1",
     "node-thermal-printer": "^4.4.3",
+    "nodemon": "^3.1.7",
+    "pm2": "^5.4.2",
     "sharp": "^0.33.5",
     "winston": "^3.15.0"
   },
