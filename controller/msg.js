@@ -11,15 +11,12 @@ const orderService = require("../service/order");
 
 const shortUrl = async (url) => {
     try {
-        // curl -X POST 'https://dwz.cn/api/v3/short-urls'
-        //  -H 'Content-Type:application/json; charset=UTF-8'
-        //  -H 'Dwz-Token: 你的token'
-        //  -d '[{"LongUrl":"你的长网址1","TermOfValidity":"有效期"},{"LongUrl":"你的长网址2","TermOfValidity":"有效期"}]'
-        const result = await axios.post('https://dwz.cn/api/v3/short-urls', {
-            LongUrl: url,
-            TermOfValidity: '1-year'
+        const result = await axios.post(`https://api.uomg.com/api/long2dwz?dwzapi=urlcn&url=${url}`, {
+            headers: {
+                'Content-Type': 'application/json;',
+            }
         })
-        return result.data.ShortUrls[0].ShortUrl
+        return result.data.ae_url
     } catch (error) {
         return url
     }
