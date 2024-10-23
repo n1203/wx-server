@@ -9,6 +9,22 @@ const tokenService = require("../service/token");
 const logger = require("../utils/logger");
 const orderService = require("../service/order");
 
+const shortUrl = async (url) => {
+    try {
+        // curl -X POST 'https://dwz.cn/api/v3/short-urls'
+        //  -H 'Content-Type:application/json; charset=UTF-8'
+        //  -H 'Dwz-Token: 你的token'
+        //  -d '[{"LongUrl":"你的长网址1","TermOfValidity":"有效期"},{"LongUrl":"你的长网址2","TermOfValidity":"有效期"}]'
+        const result = await axios.post('https://dwz.cn/api/v3/short-urls', {
+            LongUrl: url,
+            TermOfValidity: '1-year'
+        })
+        return result.data.ShortUrls[0].ShortUrl
+    } catch (error) {
+        return url
+    }
+}
+
 const send = async (body, type) => {
     const isDaying = type === 'daying'
     try {
@@ -39,7 +55,8 @@ const send = async (body, type) => {
 ${elements}
 `;
         if (isDaying) {
-            content += `打印文件下载：https://kuaidian.malimawai.cn/s/print-file?orderNo=${id}`
+            const shortUrl = await shortUrl(`https://kuaidian.malimawai.cn/s/print-file?orderNo=${id}`)
+            content += `打印文件下载：${shortUrl}`
         }
 
         await sendMsg(content, isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
