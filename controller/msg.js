@@ -305,8 +305,8 @@ ${danwang}`, GROUPS.XP.YY);
                 <ul>
                     ${files.map(file => `
                         <li>
-                            <a href="${file.url}" target="_blank">${file.name}</a>
-                            <a href="${file.url}" download="${file.name}" class="button">下载</a>
+                            <a href="${file.path}" target="_blank">${file.name}</a>
+                            <a href="${file.path}" download="${file.name}" class="button">下载</a>
                         </li>
                     `).join('')}
                 </ul>
