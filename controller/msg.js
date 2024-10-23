@@ -55,8 +55,8 @@ const send = async (body, type) => {
 ${elements}
 `;
         if (isDaying) {
-            const shortUrl = await shortUrl(`https://kuaidian.malimawai.cn/s/print-file?orderNo=${id}`)
-            content += `打印文件下载：${shortUrl}`
+            const short = await shortUrl(`https://kuaidian.malimawai.cn/s/print-file?orderNo=${id}`)
+            content += `打印文件下载：${short}`
         }
 
         await sendMsg(content, isDaying ? GROUPS.XP.YY : GROUPS.XP.HZ)
