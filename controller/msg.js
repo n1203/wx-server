@@ -35,7 +35,7 @@ const send = async (body, type) => {
         }).join(`
 `)
 
-        let content = `${body.card.header.title.content}
+        let content = `${isDaying ? '@情迷. ' : ''}${body.card.header.title.content}
 ${elements}
 `;
         if (isDaying) {
