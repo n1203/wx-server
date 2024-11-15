@@ -31,16 +31,22 @@ const hyjpController = {
         return res.send(price)
     },
     posterDeploySuccess: async (req, res) => {
-        const { repository, commits } = req.body
+        const { repository, sender } = req.body
         const repoName = repository?.name
         const branch = repository?.default_branch
-        const commitMsg = commits?.[0]?.message
-        const committer = commits?.[0]?.committer?.name
+        const fullName = repository?.full_name
+        const homepage = repository?.homepage
+        const language = repository?.language
+        const visibility = repository?.visibility
+        const senderName = sender?.login
 
         await sendMsg(`[${repoName}] 收到新的推送
+仓库: ${fullName}
 分支: ${branch}
-提交者: ${committer}
-提交信息: ${commitMsg}`, GROUPS.POSTER.DEV)
+提交者: ${senderName}
+主页: ${homepage}
+语言: ${language}
+可见性: ${visibility}`, GROUPS.POSTER.DEV)
         return res.sendStatus(200)
     }
 }
