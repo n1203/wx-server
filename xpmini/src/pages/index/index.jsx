@@ -1,62 +1,64 @@
 import React from "react";
-import Layout from "./components/layout";
 import Header from "./components/header";
 import Swiper from "./components/swiper";
-import { ScrollView, View } from "@tarojs/components";
+import { View } from "@tarojs/components";
 import Tabbar from "./components/tabbar";
 import Services from "./components/services";
-import PackageItem from "./components/package-item";
+import Layout from "../../conponents/layout";
+import Packages from "./components/packages";
+import { orderApi } from "../../endpoint";
+import { useRequest } from "alova/client";
+import { Notice } from "./components/notice";
+import { Loading } from "@nutui/icons-react-taro";
+import { ConfigProvider } from "@nutui/nutui-react-taro";
 
 function Index() {
+  const scrollInfo = useRequest(orderApi.info);
+  console.log(scrollInfo.loading);
   return (
-    <Layout>
+    <>
       <Header />
-      <View
-        style={{
-          padding: "16px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-          paddingTop: "0",
-        }}
-      >
-        <Swiper />
-        <Services />
-        <PackageItem
-          item={{
-            src: "https://malimawaicode.oss-cn-hangzhou.aliyuncs.com/pic/template/791ecba3-5ff4-4f4c-bd0c-fcaeb70bf0f6.png?x-oss-process=image/auto-orient,1/resize,m_lfit,w_300/quality,q_100",
-            type: "快递代取",
-            dataTime: "2024-10-29",
-            address: "杭州市拱墅区",
-          }}
-        />
-        <PackageItem
-          item={{
-            src: "https://malimawaicode.oss-cn-hangzhou.aliyuncs.com/pic/template/791ecba3-5ff4-4f4c-bd0c-fcaeb70bf0f6.png?x-oss-process=image/auto-orient,1/resize,m_lfit,w_300/quality,q_100",
-            type: "快递代取",
-            dataTime: "2024-10-29",
-            address: "杭州市拱墅区",
-          }}
-        />
-        <PackageItem
-          item={{
-            src: "https://malimawaicode.oss-cn-hangzhou.aliyuncs.com/pic/template/791ecba3-5ff4-4f4c-bd0c-fcaeb70bf0f6.png?x-oss-process=image/auto-orient,1/resize,m_lfit,w_300/quality,q_100",
-            type: "快递代取",
-            dataTime: "2024-10-29",
-            address: "杭州市拱墅区",
-          }}
-        />
-        <PackageItem
-          item={{
-            src: "https://malimawaicode.oss-cn-hangzhou.aliyuncs.com/pic/template/791ecba3-5ff4-4f4c-bd0c-fcaeb70bf0f6.png?x-oss-process=image/auto-orient,1/resize,m_lfit,w_300/quality,q_100",
-            type: "快递代取",
-            dataTime: "2024-10-29",
-            address: "杭州市拱墅区",
-          }}
-        />
-      </View>
+      <Layout>
+        {scrollInfo?.loading ? (
+          <View key="loading" className="py-8 flex justify-center items-center">
+            <ConfigProvider theme={{ nutuiLoadingIconSize: "28px" }}>
+              <Loading type="spinner" />
+            </ConfigProvider>
+          </View>
+        ) : (
+          <View
+            key="contents"
+            style={{
+              padding: "16px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+              paddingTop: "0",
+              minHeight: "calc(100vh - 48px - 88px)",
+            }}
+          >
+            {scrollInfo.data?.pageData?.data?.map((widget) => {
+              switch (widget.type) {
+                case "notice":
+                  return <Notice style={widget?.style} />;
+                case "swiper":
+                  return <Swiper style={widget?.style} />;
+                case "sideByImages":
+                  return <Services />;
+                case "orderNew":
+                  return <Packages data={widget?.data} />;
+                default:
+                  return "no widget";
+              }
+            })}
+            {/* <Swiper />
+          <Services />
+          <Packages /> */}
+          </View>
+        )}
+      </Layout>
       <Tabbar />
-    </Layout>
+    </>
   );
 }
 

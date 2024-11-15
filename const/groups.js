@@ -8,6 +8,9 @@ const GROUPS = {
     PERSON: {
         YZM: "海燕俊平的短信",
         LC: "海燕俊平理财妙计"
+    },
+    POSTER: {
+        DEV: "ADPoster"
     }
 }
 

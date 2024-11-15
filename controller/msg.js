@@ -77,7 +77,9 @@ const controller = {
     daily: async (req, res) => {
         try {
             const danwang = await getDanwang()
+            console.log("🚀 ~ daily: ~ danwang:", danwang)
             const todayOrder = await getTodayOrder()
+            console.log("🚀 ~ daily: ~ todayOrder:", todayOrder)
             await sendMsg(`${todayOrder}
 ${danwang}`, GROUPS.XP.YY);
         } catch (error) {

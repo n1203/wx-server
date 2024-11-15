@@ -1,14 +1,7 @@
 import React from "react";
 import { Swiper } from "@nutui/nutui-react-taro";
 
-const list = [
-  "https://storage.360buyimg.com/jdc-article/NutUItaro34.jpg",
-  "https://storage.360buyimg.com/jdc-article/NutUItaro2.jpg",
-  "https://storage.360buyimg.com/jdc-article/welcomenutui.jpg",
-  "https://storage.360buyimg.com/jdc-article/fristfabu.jpg",
-];
-
-export default () => {
+export default ({ style }) => {
   return (
     <Swiper
       defaultValue={1}
@@ -21,13 +14,13 @@ export default () => {
         background: "#fff",
       }}
     >
-      {list.map((item, index) => (
+      {style?.options?.map((item, index) => (
         <Swiper.Item key={item}>
           <img
             width="100%"
             height="100%"
             onClick={() => console.log(index)}
-            src={item}
+            src={item?.image}
             alt=""
           />
         </Swiper.Item>

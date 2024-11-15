@@ -1,8 +1,6 @@
 import { defineConfig } from '@tarojs/cli'
-import tailwindcss from 'tailwindcss'
 import devConfig from './dev'
 import prodConfig from './prod'
-import vitePluginImp from 'vite-plugin-imp'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
@@ -38,33 +36,44 @@ export default defineConfig(async (merge, { command, mode }) => {
       }
     },
     framework: 'react',
+
     compiler: {
-      vitePlugins: [
-        vitePluginImp({
-          libList: [
-            {
-              libName: '@nutui/nutui-react-taro',
-              style: (name) => {
-                return `@nutui/nutui-react-taro/dist/esm/${name}/style/css`
-              },
-              replaceOldImport: false,
-              camel2DashComponentName: false,
-            }
-          ]
-        }),
-        {
-          // 通过 vite 插件加载 postcss,
-          name: 'postcss-config-loader-plugin',
-          config(config) {
-            // 加载 tailwindcss
-            if (typeof config.css?.postcss === 'object') {
-              config.css?.postcss.plugins?.unshift(tailwindcss())
-            }
-          },
-        },
-      ],
-      type: 'vite'
+      type: 'webpack5',
+      prebundle: {
+        enable: false
+      }
     },
+    cache: {
+      enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+    },
+
+    // compiler: {
+    //   vitePlugins: [
+    //     vitePluginImp({
+    //       libList: [
+    //         {
+    //           libName: '@nutui/nutui-react-taro',
+    //           style: (name) => {
+    //             return `@nutui/nutui-react-taro/dist/esm/${name}/style/css`
+    //           },
+    //           replaceOldImport: false,
+    //           camel2DashComponentName: false,
+    //         }
+    //       ]
+    //     }),
+    //     {
+    //       // 通过 vite 插件加载 postcss,
+    //       name: 'postcss-config-loader-plugin',
+    //       config(config) {
+    //         // 加载 tailwindcss
+    //         if (typeof config.css?.postcss === 'object') {
+    //           config.css?.postcss.plugins?.unshift(tailwindcss())
+    //         }
+    //       },
+    //     },
+    //   ],
+    //   type: 'vite'
+    // },
     mini: {
       postcss: {
         pxtransform: {

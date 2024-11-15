@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react'
-import { useDidShow, useDidHide } from '@tarojs/taro'
+import Taro, { useDidShow, useDidHide } from '@tarojs/taro'
+import '@nutui/icons-react-taro'
+import 'alova'
+import 'alova/client'
+
 // 全局样式
 import './app.css'
 

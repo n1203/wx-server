@@ -35,6 +35,9 @@ app.get("/gold-price", hyjpController.goldPrice);
 const SystemController = require('./controller/system')
 app.get("/health", SystemController.health);
 
+/** ADPoster */
+app.post("/poster-deploy-success", hyjpController.posterDeploySuccess);
+
 /**
  * 启动
  */

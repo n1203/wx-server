@@ -7,7 +7,12 @@ const { getMetroConfig } = require('@tarojs/rn-supporter')
  *
  * @type {import('metro-config').MetroConfig}
  */
-const config = {}
+const config = {
+  // resolver.unstable_enablePackageExports
+  resolver: {
+    unstable_enablePackageExports: true
+  }
+}
 
 module.exports = (async function () {
   return mergeConfig(getDefaultConfig(__dirname), await getMetroConfig(), config)
